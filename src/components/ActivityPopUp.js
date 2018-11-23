@@ -165,6 +165,19 @@ export default class ActivityPopUp extends Component {
         )
     }
 
+    drawProgress(){
+        const path = d3.path();
+        path.arc(0,0,182, 1 * Math.PI, 1.2 * Math.PI, false)
+        return (
+            <ART.Shape 
+                d={path.toString()} 
+                stroke="#82C3B8"
+                strokeWidth={8}
+                transform={new ART.Transform().translate(200, 220)}
+            />
+        )
+    }
+
     render(){
         var path = d3.path();
         path.moveTo(40,40);
@@ -184,6 +197,7 @@ export default class ActivityPopUp extends Component {
                     <StyledViewMainItemContainer>
                         <ART.Surface width={400} height={400}>
                             {this.drawTick()}
+                            {this.drawProgress()}
                         </ART.Surface>
                         <StyledViewMainItem>
                             <StyledTextMainItem>00:03:21</StyledTextMainItem>

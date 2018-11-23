@@ -7,7 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, View, TouchableOpacity} from 'react-native';
+import styled from 'styled-components/native';
+import ActivityPopUp from './src/components/ActivityPopUp';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -16,34 +18,76 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+const StyledViewContainer = styled.View`
+    flex: 1;
+    display: flex;
+    justifyContent: center;
+    alignItems: center;
+`;
+
+const StyledViewContent = styled.View`
+    flex: 1;
+    display: flex;
+    justifyContent: center;
+    alignItems: center;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+    width: 100%;
+    justifyContent: center;
+    alignItems: center;
+    backgroundColor: #37a59d;
+    padding: 20px;
+`;
+
+const StyledTextWelcome = styled.Text`
+    font-size: 20;
+    margin: 10px;
+    text-align: center;
+`;
+
+const StyledTextInstruction = styled.Text`
+    color: #333333;
+    text-align: center;
+`;
+
+const StyledText = styled.Text`
+    color: #fff;
+    font-weight: bold;
+`;
+
+
 type Props = {};
 export default class App extends Component<Props> {
+
+  state = {
+    showActivityPopUp: false,
+  }
+
+  onClick = () => {
+    this.setState({showActivityPopUp: true});
+  }
+
+  closePopUp = () => {
+    this.setState({showActivityPopUp: false});
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <StyledViewContainer>
+
+        <StyledViewContent>
+          <StyledTextWelcome>Welcome to React Native!</StyledTextWelcome>
+          <StyledTextInstruction>To get started, edit App.js</StyledTextInstruction>
+          <StyledTextInstruction>{instructions}</StyledTextInstruction>
+        </StyledViewContent>
+        <StyledTouchableOpacity onPress={this.onClick}>
+          <View>
+            <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
+          </View>
+        </StyledTouchableOpacity>
+        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp}/> : null}
+      </StyledViewContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

@@ -73,17 +73,6 @@ export default class App extends Component<Props> {
   }
 
   render() {
-    // console.log(this.state.dAttribute);
-    // const path = ART.Path();
-    // path.moveTo(1,1); //将起始点移动到(1,1) 默认(0,0)
-    // path.lineTo(300,1); //连线到目标点(300,1)
-    const path = new ART.Path()
-    .moveTo(50,1)
-    .arc(0,99,25)
-    .arc(0,-99,25)
-    .close();
-    console.log(path);
-
     return (
       <StyledViewContainer>
 

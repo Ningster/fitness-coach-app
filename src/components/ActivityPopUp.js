@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Text, ART, Dimensions} from 'react-native';
+import {Modal, Text, ART, Dimensions, Alert} from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as d3 from "d3";
@@ -110,7 +110,8 @@ export default class ActivityPopUp extends Component {
 
     constructor(props){
         super(props);
-        this.closePopUp = this.props.closePopUp;
+        this.courseTimeLength = props.courseTimeLength;
+        this.closePopUp = props.closePopUp;
         this.tickLength = 7;
         this.screenDimensions = Dimensions.get('window');
         this.scale = this.screenDimensions.scale;
@@ -123,6 +124,8 @@ export default class ActivityPopUp extends Component {
             isPaused: false,
             mainItemValue: 0,
             timer: null,
+            progress: 0,
+            isCourseEnded: false,
         };
     }
 
@@ -192,12 +195,13 @@ export default class ActivityPopUp extends Component {
 
     drawProgress(progress){
         const path = d3.path();
-        path.arc(0,0,this.centroidX - this.tickLength/2, 0.92 * Math.PI, progress * Math.PI, false)
+        // start: 0.92*PI ; end: 2.08*PI
+        path.arc(0,0,this.centroidX - this.tickLength/2, 0.92 * Math.PI, (0.92+(2.08-0.92)*progress)*Math.PI, false)
         return (
             <ART.Shape 
                 d={path.toString()} 
                 stroke="#82C3B8"
-                strokeWidth={this.tickLength}
+                strokeWidth={this.tickLength + 1}
                 transform={new ART.Transform().translate(this.centroidX, this.centroidY)}
             />
         )
@@ -217,12 +221,33 @@ export default class ActivityPopUp extends Component {
             {timer: setInterval(
                 ()=>{
                     this.setState((state, props)=>{
-                        return {mainItemValue: state.mainItemValue + 1}
+                        return {
+                            mainItemValue: state.mainItemValue + 1,
+                            progress: (state.mainItemValue + 1)/this.courseTimeLength,
+                            isCourseEnded: (state.mainItemValue + 1)/this.courseTimeLength >= 1,
+                        }
                     });
                 }
                 , 1000)
             }
         );
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.isCourseEnded !== prevState.isCourseEnded){
+            if(this.state.isCourseEnded){
+                this.onPause();
+                // Works on both iOS and Android
+                Alert.alert(
+                    'Good Job! 課程已結束',
+                    null,
+                    [
+                      {text: 'OK', onPress: () => this.closePopUp()},
+                    ],
+                    { cancelable: false }
+                );
+            }
+        }
     }
 
     componentDidMount(){
@@ -245,7 +270,7 @@ export default class ActivityPopUp extends Component {
                     <StyledViewMainItemContainer>
                         <ART.Surface width={this.surfaceWidth} height={this.surfaceHeight}>
                             {this.drawTick(210, 42)}
-                            {this.drawProgress(1.2)}
+                            {this.drawProgress(this.state.progress)}
                         </ART.Surface>
                         <StyledViewMainValue radius={this.centroidX}>
                             <StyledTextMainItem screenWidth={this.screenDimensions.width}>
@@ -256,17 +281,17 @@ export default class ActivityPopUp extends Component {
                     <StyledViewSubItemContainer>
                         <StyledViewSubItem>
                             <Icon name="speedometer" size={30} color="#a3a1af" />
-                            <StyledTextSubItemValue>15'21''</StyledTextSubItemValue>
+                            <StyledTextSubItemValue>--'--''</StyledTextSubItemValue>
                             <StyledTextSubItemName>配速</StyledTextSubItemName>
                         </StyledViewSubItem>
                         <StyledViewSubItem>
                             <Icon name="walk" size={30} color="#a3a1af" />
-                            <StyledTextSubItemValue>33</StyledTextSubItemValue>
+                            <StyledTextSubItemValue>--</StyledTextSubItemValue>
                             <StyledTextSubItemName>步數</StyledTextSubItemName>
                         </StyledViewSubItem>
                         <StyledViewSubItem>
                             <Icon name="fire" size={30} color="#a3a1af" />
-                            <StyledTextSubItemValue>4</StyledTextSubItemValue>
+                            <StyledTextSubItemValue>--</StyledTextSubItemValue>
                             <StyledTextSubItemName>千卡</StyledTextSubItemName>
                         </StyledViewSubItem>
                     </StyledViewSubItemContainer>

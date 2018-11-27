@@ -86,7 +86,7 @@ export default class App extends Component<Props> {
             <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
           </View>
         </StyledTouchableOpacity>
-        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp}/> : null}
+        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp} courseTimeLength={180}/> : null}
       </StyledViewContainer>
     );
   }

@@ -60,7 +60,6 @@ const StyledViewControlPanelInactive = styled.View`
 const StyledTextMainItem = styled.Text`
     font-size: ${
         (props) => {
-            console.log(props.screenWidth);
             if(props.screenWidth >= 414){
                 return 70;
             }else{
@@ -122,38 +121,29 @@ export default class ActivityPopUp extends Component {
         this.centroidY = this.surfaceDiff ? (this.surfaceHeight)/2 + (this.surfaceDiff) : (this.surfaceHeight)/2;
         this.state = {
             isPaused: false,
+            mainItemValue: 0,
+            timer: null,
         };
     }
 
     
     onPause = () => {
         this.setState({isPaused: true});
+        clearInterval(this.state.timer);
     }
 
     onPlay = () => {
         this.setState({isPaused: false});
+        this.setTimer();
     }
 
     onStop = () => {
         this.closePopUp();
+        clearInterval(this.state.timer);
+        this.setState({mainItemValue: 0});
     }
 
     createFirstTickPath(centroidX, centroidY) {
-        // 180度半圓形
-        // var lineData = [ { "x": centroidX,   "y": centroidY},  { "x": 15,  "y": centroidY + 40},];
-
-        // 270度扇型圓
-        // var lineData = [ 
-        //     { "x": centroidX,   "y": centroidY},  
-        //     { "x": centroidX - centroidX/Math.sqrt(2),  "y": centroidY + centroidX/Math.sqrt(2)},
-        // ];
-
-        // 240度扇型圓
-        // var lineData = [ 
-        //     { "x": centroidX,   "y": centroidY},  
-        //     { "x": centroidX - (centroidX/2*Math.sqrt(3)),  "y": centroidY + centroidX/2},
-        // ];
-
         // 210度扇型圓
         var lineData = [ 
             { "x": centroidX,   "y": centroidY},  
@@ -213,10 +203,33 @@ export default class ActivityPopUp extends Component {
         )
     }
 
+    secToString(sec){
+        const hours = Math.floor(sec/3600);
+        let remainder = sec % 3600;
+        const minutes = Math.floor(remainder/60);
+        const secs = remainder % 60;
+        const prefix = (time)=>time > 9 ? time : '0'+time ;
+        return `${prefix(hours)}:${prefix(minutes)}:${prefix(secs)}`; 
+    }
+
+    setTimer(){
+        this.setState(
+            {timer: setInterval(
+                ()=>{
+                    this.setState((state, props)=>{
+                        return {mainItemValue: state.mainItemValue + 1}
+                    });
+                }
+                , 1000)
+            }
+        );
+    }
+
+    componentDidMount(){
+        this.setTimer();
+    }
+
     render(){
-        var path = d3.path();
-        path.moveTo(40,40);
-        path.lineTo(99,10);
         return (
             <Modal
                 animationType="slide"
@@ -235,7 +248,9 @@ export default class ActivityPopUp extends Component {
                             {this.drawProgress(1.2)}
                         </ART.Surface>
                         <StyledViewMainValue radius={this.centroidX}>
-                            <StyledTextMainItem screenWidth={this.screenDimensions.width}>00:03:21</StyledTextMainItem>
+                            <StyledTextMainItem screenWidth={this.screenDimensions.width}>
+                                {this.secToString(this.state.mainItemValue)}
+                            </StyledTextMainItem>
                         </StyledViewMainValue>
                     </StyledViewMainItemContainer>
                     <StyledViewSubItemContainer>

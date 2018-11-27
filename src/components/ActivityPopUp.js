@@ -18,11 +18,11 @@ const StyledViewTopBar = styled.View`
 const StyledViewMainItemContainer = styled.View`
     flex: 6;
     align-items: center;
-    justify-content: center;
 `;
 
-const StyledViewMainItem = styled.View`
+const StyledViewMainValue = styled.View`
     position: absolute;
+    top: ${(props) => props.radius*0.78};
     flex-direction: row;
     align-items: baseline;
 `;
@@ -58,7 +58,16 @@ const StyledViewControlPanelInactive = styled.View`
 `;
 
 const StyledTextMainItem = styled.Text`
-    font-size: ${(props) => props.textScale*30};
+    font-size: ${
+        (props) => {
+            console.log(props.screenWidth);
+            if(props.screenWidth >= 414){
+                return 70;
+            }else{
+                return 50;
+            }
+        }
+    };
     color: #ffffff;
     font-family: AvenirNextCondensed-Medium;
 `;
@@ -225,9 +234,9 @@ export default class ActivityPopUp extends Component {
                             {this.drawTick(210, 42)}
                             {this.drawProgress(1.2)}
                         </ART.Surface>
-                        <StyledViewMainItem>
-                            <StyledTextMainItem textScale={this.scale}>00:03:21</StyledTextMainItem>
-                        </StyledViewMainItem>
+                        <StyledViewMainValue radius={this.centroidX}>
+                            <StyledTextMainItem screenWidth={this.screenDimensions.width}>00:03:21</StyledTextMainItem>
+                        </StyledViewMainValue>
                     </StyledViewMainItemContainer>
                     <StyledViewSubItemContainer>
                         <StyledViewSubItem>

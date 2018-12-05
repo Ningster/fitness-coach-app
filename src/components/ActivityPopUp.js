@@ -3,6 +3,9 @@ import {Modal, Text, ART, Dimensions, Alert} from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as d3 from "d3";
+import {observer} from 'mobx-react';
+import timerService from '../services/TimerService';
+import {TIMER_STATE} from '../constants/timer';
 
 const StyledViewContainer = styled.View`
     flex: 1;
@@ -106,6 +109,7 @@ const StyledBtnStop = styled(StyledBtnControlPanel)`
     background-color: #f95995;
 `
 
+@observer
 export default class ActivityPopUp extends Component {
 
     constructor(props){
@@ -122,28 +126,23 @@ export default class ActivityPopUp extends Component {
         this.centroidY = this.surfaceDiff ? (this.surfaceHeight)/2 + (this.surfaceDiff) : (this.surfaceHeight)/2;
         this.state = {
             isPaused: false,
-            mainItemValue: 0,
-            timer: null,
-            progress: 0,
-            isCourseEnded: false,
         };
     }
 
     
     onPause = () => {
         this.setState({isPaused: true});
-        clearInterval(this.state.timer);
+        timerService.setTimerState(TIMER_STATE.PAUSE);
     }
 
-    onPlay = () => {
+    onResume = () => {
         this.setState({isPaused: false});
-        this.setTimer();
+        timerService.setTimerState(TIMER_STATE.RESUME);
     }
 
     onStop = () => {
         this.closePopUp();
-        clearInterval(this.state.timer);
-        this.setState({mainItemValue: 0});
+        timerService.setTimerState(TIMER_STATE.FINISH);
     }
 
     createFirstTickPath(centroidX, centroidY) {
@@ -207,51 +206,9 @@ export default class ActivityPopUp extends Component {
         )
     }
 
-    secToString(sec){
-        const hours = Math.floor(sec/3600);
-        let remainder = sec % 3600;
-        const minutes = Math.floor(remainder/60);
-        const secs = remainder % 60;
-        const prefix = (time)=>time > 9 ? time : '0'+time ;
-        return `${prefix(hours)}:${prefix(minutes)}:${prefix(secs)}`; 
-    }
-
-    setTimer(){
-        this.setState(
-            {timer: setInterval(
-                ()=>{
-                    this.setState((state, props)=>{
-                        return {
-                            mainItemValue: state.mainItemValue + 1,
-                            progress: (state.mainItemValue + 1)/this.courseTimeLength,
-                            isCourseEnded: (state.mainItemValue + 1)/this.courseTimeLength >= 1,
-                        }
-                    });
-                }
-                , 1000)
-            }
-        );
-    }
-
-    componentDidUpdate(prevProps, prevState){
-        if(this.state.isCourseEnded !== prevState.isCourseEnded){
-            if(this.state.isCourseEnded){
-                this.onPause();
-                // Works on both iOS and Android
-                Alert.alert(
-                    'Good Job! 課程已結束',
-                    null,
-                    [
-                      {text: 'OK', onPress: () => this.closePopUp()},
-                    ],
-                    { cancelable: false }
-                );
-            }
-        }
-    }
-
     componentDidMount(){
-        this.setTimer();
+        timerService.setTimer(10000);
+        timerService.setTimerState(TIMER_STATE.START);
     }
 
     render(){
@@ -263,6 +220,16 @@ export default class ActivityPopUp extends Component {
                 onRequestClose={() => {
                 Alert.alert('Modal has been closed.');
             }}>
+                {timerService.timeIsUp ? (
+                    Alert.alert(
+                        'Good Job! 課程已結束',
+                        null,
+                        [
+                            {text: 'OK', onPress: this.onStop},
+                        ],
+                        { cancelable: false }
+                    )
+                ):(null)}
                 <StyledViewContainer>
                     <StyledViewTopBar>
                         <Text style={{color: '#ffffff'}}>跑步中</Text>
@@ -270,11 +237,12 @@ export default class ActivityPopUp extends Component {
                     <StyledViewMainItemContainer>
                         <ART.Surface width={this.surfaceWidth} height={this.surfaceHeight}>
                             {this.drawTick(210, 42)}
-                            {this.drawProgress(this.state.progress)}
+                            {this.drawProgress(timerService.progress)}
                         </ART.Surface>
                         <StyledViewMainValue radius={this.centroidX}>
                             <StyledTextMainItem screenWidth={this.screenDimensions.width}>
-                                {this.secToString(this.state.mainItemValue)}
+                                {timerService.timePassedStr}
+
                             </StyledTextMainItem>
                         </StyledViewMainValue>
                     </StyledViewMainItemContainer>
@@ -299,7 +267,7 @@ export default class ActivityPopUp extends Component {
                         {this.state.isPaused == true ? (
                             <StyledViewControlPanelInactive>
                                 <StyledBtnPlay
-                                    onPress={this.onPlay}
+                                    onPress={this.onResume}
                                 >
                                     <Icon name={"play"}  size={30} color="#fff" />
                                     <Text style={{color:"#fff"}}>繼續</Text>

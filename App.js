@@ -73,6 +73,7 @@ export default class App extends Component<Props> {
   }
 
   render() {
+    // courseTimeLength in milliseconds.
     return (
       <StyledViewContainer>
 
@@ -86,7 +87,7 @@ export default class App extends Component<Props> {
             <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
           </View>
         </StyledTouchableOpacity>
-        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp} courseTimeLength={180}/> : null}
+        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp} courseTimeLength={60000}/> : null}
       </StyledViewContainer>
     );
   }

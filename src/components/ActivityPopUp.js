@@ -207,7 +207,7 @@ export default class ActivityPopUp extends Component {
     }
 
     componentDidMount(){
-        timerService.setTimer(10000);
+        timerService.setTimer(this.courseTimeLength);
         timerService.setTimerState(TIMER_STATE.START);
     }
 

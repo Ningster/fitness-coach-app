@@ -116,6 +116,7 @@ export default class ActivityPopUp extends Component {
     constructor(props){
         super(props);
         this.activityInfo = props.activityInfo;
+        this.supervisorScript = this.activityInfo.script.slice(0);
         this.ttsSupervisor = (() => {
             switch(this.activityInfo.trigger){
                 case TRIGGER.TIME:
@@ -210,19 +211,19 @@ export default class ActivityPopUp extends Component {
             <ART.Shape 
                 d={path.toString()} 
                 stroke="#82C3B8"
-                strokeWidth={this.tickLength + 1}
+                strokeWidth={this.tickLength + 3}
                 transform={new ART.Transform().translate(this.centroidX, this.centroidY)}
             />
         )
     }
 
     timeSupervisor(){
-        if(this.activityInfo.script.length > 0){
-            let script = this.activityInfo.script[0];
+        if(this.supervisorScript.length > 0){
+            let script = this.supervisorScript[0];
             if(timerService.timePassed >= script.baseline){
                 console.log(`timeSupervisor says: ${script.text}`);
                 this.TextToSpeechManager.speak(script.text);
-                this.activityInfo.script.shift();
+                this.supervisorScript.shift();
             }
         }
     }

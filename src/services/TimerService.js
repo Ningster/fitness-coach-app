@@ -34,7 +34,7 @@ class TimerService {
                     ()=>{
                         this.timePassed = new Date().getTime()-this.currTimestamp;
                     }
-                    , 1000)
+                    , 500)
                 break;
             case TIMER_STATE.PAUSE:
                 // cache the passed time for later resumes.
@@ -52,7 +52,7 @@ class TimerService {
                     ()=>{
                         this.timePassed = this.timePausedAt + (new Date().getTime()-this.currTimestamp);
                     }
-                    , 1000)
+                    , 500)
                 break;
             case TIMER_STATE.FINISH:
                 // Set back to default.

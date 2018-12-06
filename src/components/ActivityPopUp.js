@@ -149,7 +149,7 @@ export default class ActivityPopUp extends Component {
         // 210度扇型圓
         var lineData = [ 
             { "x": centroidX,   "y": centroidY},  
-            { "x": centroidX - (centroidX/(Math.sqrt(6)+Math.sqrt(2)))*(Math.sqrt(3)+2),  "y": centroidY + (centroidX/(Math.sqrt(6)+Math.sqrt(2)))},
+            { "x": centroidX - (centroidX/(Math.sqrt(6)+Math.sqrt(2)))*(Math.sqrt(3)+2) + 3,  "y": centroidY + (centroidX/(Math.sqrt(6)+Math.sqrt(2)))},
         ];
         var lineFunction = d3.line()
                             .x(function(d) { return d.x; })
@@ -168,7 +168,7 @@ export default class ActivityPopUp extends Component {
           startAngle: 1.5 * Math.PI,
           endAngle: 3.5 * Math.PI,
           innerRadius: 0,
-          outerRadius: this.centroidX-this.tickLength,
+          outerRadius: this.centroidX-this.tickLength - 3,
         });
         return (
             <React.Fragment>
@@ -195,7 +195,7 @@ export default class ActivityPopUp extends Component {
     drawProgress(progress){
         const path = d3.path();
         // start: 0.92*PI ; end: 2.08*PI
-        path.arc(0,0,this.centroidX - this.tickLength/2, 0.92 * Math.PI, (0.92+(2.08-0.92)*progress)*Math.PI, false)
+        path.arc(0,0,this.centroidX - this.tickLength/2 - 3, 0.92 * Math.PI, (0.92+(2.08-0.92)*progress)*Math.PI, false)
         return (
             <ART.Shape 
                 d={path.toString()} 

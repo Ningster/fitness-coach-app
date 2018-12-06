@@ -54,6 +54,8 @@
 		E810C51F21A79CB30062619D /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E810C51021A79CB30062619D /* SimpleLineIcons.ttf */; };
 		E810C52021A79CB30062619D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E810C51121A79CB30062619D /* MaterialIcons.ttf */; };
 		E810C5EB21A7D95E0062619D /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E810C5E821A7D8EB0062619D /* libART.a */; };
+		E8EC917621AD481C00E8B57D /* TextToSpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EC917521AD481C00E8B57D /* TextToSpeechManager.swift */; };
+		E8EC917821AD485800E8B57D /* TextToSpeechManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EC917721AD485800E8B57D /* TextToSpeechManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +391,9 @@
 		E810C51021A79CB30062619D /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		E810C51121A79CB30062619D /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		E810C5E221A7D8EA0062619D /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		E8EC917421AD481C00E8B57D /* fitnessCoachApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fitnessCoachApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		E8EC917521AD481C00E8B57D /* TextToSpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechManager.swift; sourceTree = "<group>"; };
+		E8EC917721AD485800E8B57D /* TextToSpeechManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextToSpeechManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,6 +540,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				E8EC917521AD481C00E8B57D /* TextToSpeechManager.swift */,
+				E8EC917421AD481C00E8B57D /* fitnessCoachApp-Bridging-Header.h */,
+				E8EC917721AD485800E8B57D /* TextToSpeechManager.m */,
 			);
 			name = fitnessCoachApp;
 			sourceTree = "<group>";
@@ -775,6 +783,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = UJ3V25GUVA;
+						LastSwiftMigration = 1010;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1231,8 +1240,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8EC917621AD481C00E8B57D /* TextToSpeechManager.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				E8EC917821AD485800E8B57D /* TextToSpeechManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,6 +1295,7 @@
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = UJ3V25GUVA;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1306,6 +1318,7 @@
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = UJ3V25GUVA;
@@ -1326,6 +1339,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = UJ3V25GUVA;
@@ -1338,6 +1352,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = fitnessCoachApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "fitnessCoachApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1346,6 +1363,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UJ3V25GUVA;
 				INFOPLIST_FILE = fitnessCoachApp/Info.plist;
@@ -1357,6 +1375,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = fitnessCoachApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "fitnessCoachApp-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {Platform, View, TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 import ActivityPopUp from './src/components/ActivityPopUp';
+import {runHIIT} from './src/assets/activitiesInfo';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -73,7 +74,7 @@ export default class App extends Component<Props> {
   }
 
   render() {
-    // courseTimeLength in milliseconds.
+    // timeLength in milliseconds.
     return (
       <StyledViewContainer>
 
@@ -87,7 +88,14 @@ export default class App extends Component<Props> {
             <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
           </View>
         </StyledTouchableOpacity>
-        {this.state.showActivityPopUp ? <ActivityPopUp closePopUp={this.closePopUp} courseTimeLength={60000}/> : null}
+        {this.state.showActivityPopUp ? 
+          <ActivityPopUp 
+            closePopUp={this.closePopUp} 
+            activityInfo={runHIIT}
+          /> 
+          : 
+          null
+        }
       </StyledViewContainer>
     );
   }

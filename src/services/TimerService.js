@@ -64,7 +64,7 @@ class TimerService {
                 clearInterval(this.timer);
                 break;
             default:
-                console.log("default for switch");
+                throw `Invalid timer state: ${state}. Only 'start'|'finish'|'pause'|'resume' are allowed.`;
         }
     }
 

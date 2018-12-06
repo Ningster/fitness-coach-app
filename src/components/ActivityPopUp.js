@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Modal, Text, ART, Dimensions, Alert} from 'react-native';
+import {Modal, Text, ART, Dimensions, Alert, NativeModules} from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as d3 from "d3";
 import {observer} from 'mobx-react';
 import timerService from '../services/TimerService';
 import {TIMER_STATE} from '../constants/timer';
+import {TRIGGER} from '../constants/script';
 
 const StyledViewContainer = styled.View`
     flex: 1;
@@ -114,7 +115,15 @@ export default class ActivityPopUp extends Component {
 
     constructor(props){
         super(props);
-        this.courseTimeLength = props.courseTimeLength;
+        this.activityInfo = props.activityInfo;
+        this.ttsSupervisor = (() => {
+            switch(this.activityInfo.trigger){
+                case TRIGGER.TIME:
+                    return this.timeSupervisor;
+                default:
+                    throw `Invalid trigger: ${this.activityInfo.trigger}. Only 'time'|'heartRate'|'gps'|'pace' are allowed.`;
+            }
+        })();
         this.closePopUp = props.closePopUp;
         this.tickLength = 7;
         this.screenDimensions = Dimensions.get('window');
@@ -127,6 +136,7 @@ export default class ActivityPopUp extends Component {
         this.state = {
             isPaused: false,
         };
+        this.TextToSpeechManager = NativeModules.TextToSpeechManager;
     }
 
     
@@ -206,8 +216,19 @@ export default class ActivityPopUp extends Component {
         )
     }
 
+    timeSupervisor(){
+        if(this.activityInfo.script.length > 0){
+            let script = this.activityInfo.script[0];
+            if(timerService.timePassed >= script.baseline){
+                console.log(`timeSupervisor says: ${script.text}`);
+                this.TextToSpeechManager.speak(script.text);
+                this.activityInfo.script.shift();
+            }
+        }
+    }
+
     componentDidMount(){
-        timerService.setTimer(this.courseTimeLength);
+        timerService.setTimer(this.activityInfo.timeLength);
         timerService.setTimerState(TIMER_STATE.START);
     }
 
@@ -230,6 +251,7 @@ export default class ActivityPopUp extends Component {
                         { cancelable: false }
                     )
                 ):(null)}
+                {this.ttsSupervisor()}
                 <StyledViewContainer>
                     <StyledViewTopBar>
                         <Text style={{color: '#ffffff'}}>跑步中</Text>

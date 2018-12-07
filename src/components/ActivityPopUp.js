@@ -144,16 +144,19 @@ export default class ActivityPopUp extends Component {
     onPause = () => {
         this.setState({isPaused: true});
         timerService.setTimerState(TIMER_STATE.PAUSE);
+        this.TextToSpeechManager.pauseSpeakingWord();
     }
 
     onResume = () => {
         this.setState({isPaused: false});
         timerService.setTimerState(TIMER_STATE.RESUME);
+        this.TextToSpeechManager.continueSpeaking();
     }
 
     onStop = () => {
         this.closePopUp();
         timerService.setTimerState(TIMER_STATE.FINISH);
+        this.TextToSpeechManager.stopSpeakingImmediate();
     }
 
     createFirstTickPath(centroidX, centroidY) {

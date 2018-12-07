@@ -13,5 +13,8 @@
 
 RCT_EXTERN_METHOD(addSomeEvent:(NSString *)name location:(NSString *)location date:(nonnull NSNumber *)date)
 RCT_EXTERN_METHOD(speak:(NSString *)text)
+RCT_EXTERN_METHOD(stopSpeakingImmediate)
+RCT_EXTERN_METHOD(pauseSpeakingWord)
+RCT_EXTERN_METHOD(continueSpeaking)
 
 @end

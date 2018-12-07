@@ -19,17 +19,14 @@ class TextToSpeechManager: NSObject {
     super.init();
   }
   
+  @objc static func requiresMainQueueSetup() -> Bool {
+    return false
+  }
+  
   @objc(addSomeEvent:location:date:)
   func addSomeEvent(name: String, location: String, date: NSNumber) -> Void {
     // Date is ready to use!
     NSLog("Cute \(name) and you can also put expressions here \(5*2)");
-//    let utterance = AVSpeechUtterance(string: "放鬆你的肩膀，我們來暖身五分鐘！")
-//    utterance.voice = AVSpeechSynthesisVoice(language: "zh-TW")
-//    utterance.rate = 0.5
-    
-//    let synthesizer = AVSpeechSynthesizer()
-//    synthesizer.speak(utterance)
-//    self.synthesizer.speak(utterance);
   }
   
   @objc(speak:)
@@ -39,6 +36,21 @@ class TextToSpeechManager: NSObject {
     utterance.voice = AVSpeechSynthesisVoice(language: "zh-TW")
     utterance.rate = 0.5
     self.synthesizer.speak(utterance);
+  }
+  
+  @objc(stopSpeakingImmediate)
+  func stopSpeakingImmediate() -> Void {
+    self.synthesizer.stopSpeaking(at:AVSpeechBoundary.immediate);
+  }
+  
+  @objc(pauseSpeakingWord)
+  func pauseSpeakingWord() -> Void {
+    self.synthesizer.pauseSpeaking(at:AVSpeechBoundary.word);
+  }
+  
+  @objc(continueSpeaking)
+  func continueSpeaking() -> Void {
+    self.synthesizer.continueSpeaking();
   }
   
   @objc

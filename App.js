@@ -6,97 +6,60 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, View, TouchableOpacity} from 'react-native';
-import styled from 'styled-components/native';
-import ActivityPopUp from './src/components/ActivityPopUp';
-import {runHIIT} from './src/assets/activitiesInfo';
+import React from "react";
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from "react-navigation";
+import Activity from "./src/components/Activity";
+import UserProfile from "./src/components/UserProfile";
+import {View, LinearGradient, Platform, Header} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-const StyledViewContainer = styled.View`
-    flex: 1;
-    display: flex;
-    justifyContent: center;
-    alignItems: center;
-`;
-
-const StyledViewContent = styled.View`
-    flex: 1;
-    display: flex;
-    justifyContent: center;
-    alignItems: center;
-`;
-
-const StyledTouchableOpacity = styled.TouchableOpacity`
-    width: 100%;
-    justifyContent: center;
-    alignItems: center;
-    backgroundColor: #37a59d;
-    padding: 20px;
-`;
-
-const StyledTextWelcome = styled.Text`
-    font-size: 20;
-    margin: 10px;
-    text-align: center;
-`;
-
-const StyledTextInstruction = styled.Text`
-    color: #333333;
-    text-align: center;
-`;
-
-const StyledText = styled.Text`
-    color: #fff;
-    font-weight: bold;
-`;
-
-
-type Props = {};
-export default class App extends Component<Props> {
-
-  state = {
-    showActivityPopUp: false,
+const ActivityStackNavigator = createStackNavigator(
+  {
+    Activity: Activity,
+  },
+  {
+    navigationOptions: {
+      tabBarLabel: '運動',
+    },
   }
+);
 
-  onClick = () => {
-    this.setState({showActivityPopUp: true});
+const UserProfileStackNavigator = createStackNavigator(
+  {
+    UserProfile: UserProfile,
+  },
+  {
+    navigationOptions: {
+      tabBarLabel: '我',
+    },
   }
+);
 
-  closePopUp = () => {
-    this.setState({showActivityPopUp: false});
-  }
-
-  render() {
-    // timeLength in milliseconds.
-    return (
-      <StyledViewContainer>
-
-        <StyledViewContent>
-          <StyledTextWelcome>Welcome to React Native!</StyledTextWelcome>
-          <StyledTextInstruction>To get started, edit App.js</StyledTextInstruction>
-          <StyledTextInstruction>{instructions}</StyledTextInstruction>
-        </StyledViewContent>
-        <StyledTouchableOpacity onPress={this.onClick}>
-          <View>
-            <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
-          </View>
-        </StyledTouchableOpacity>
-        {this.state.showActivityPopUp ? 
-          <ActivityPopUp 
-            closePopUp={this.closePopUp} 
-            activityInfo={runHIIT}
-          /> 
-          : 
-          null
+const TabNavigator = createBottomTabNavigator(
+  {
+    ActivityRoute: ActivityStackNavigator,
+    UserProfileRoute: UserProfileStackNavigator
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'ActivityRoute') {
+          // iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          iconName = 'flash';
+        } else if (routeName === 'UserProfileRoute') {
+          // iconName = `ios-options${focused ? '' : '-outline'}`;
+          iconName = 'face-profile';
         }
-      </StyledViewContainer>
-    );
+        return <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    },
   }
-}
+);
+
+export default createAppContainer(TabNavigator);

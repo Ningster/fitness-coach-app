@@ -10,6 +10,7 @@ import React from "react";
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 import Activity from "./src/components/Activity";
 import UserProfile from "./src/components/UserProfile";
+import StepAnalysis from "./src/components/StepAnalysis";
 import {View, LinearGradient, Platform, Header} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -27,6 +28,7 @@ const ActivityStackNavigator = createStackNavigator(
 const UserProfileStackNavigator = createStackNavigator(
   {
     UserProfile: UserProfile,
+    StepAnalysis: StepAnalysis,
   },
   {
     navigationOptions: {

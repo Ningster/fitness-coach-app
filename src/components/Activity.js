@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 import ActivityPopUp from './ActivityPopUp';
 import {runHIIT} from '../assets/activitiesInfo';
@@ -38,6 +38,9 @@ class Activity extends Component {
     const {navigate} = this.props.navigation;
     return (
         <View>
+            <StatusBar
+                barStyle="default"
+            />
             <StyledTouchableOpacity onPress={this.onClick}>
                 <View>
                     <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>

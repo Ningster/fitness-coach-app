@@ -24,7 +24,8 @@ import Svg,{
     Pattern,
     Mask,
 } from 'react-native-svg';
-import HeartBeatView from './HeartBeatView';
+import HeartBeatAnim from './HeartBeatAnim';
+import ProgressRing from './ProgressRing';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const StyledViewItemContainer = styled.View`
@@ -75,25 +76,41 @@ const StyledTextDescription = styled(StyledTextSecondary)`
     font-size: 15;
 `;
 
-function Triangle({ vertices, color, delay }){
-    const pathData = [
-        'M', vertices[0][0], vertices[0][1],
-        'L', vertices[1][0], vertices[1][1],
-        'L', vertices[2][0], vertices[2][1],
-        'Z',
-    ].join(' ');
+const StyledViewMainContainer = styled.View`
+    height: 350;
+    align-items: center;
+    justify-content: center;
+    border-bottom-width: 1px;
+    border-bottom-color: #a3a1af;
+`;
 
-    // CSS animation doesn't work in React Native
-    // const styles = {
-    //     animation: "bounce 1.2s ease both infinite",
-    //     transformOrigin: '50% 100%',
-    //     animationDelay: `${ delay }ms`,
-    // }
+const StyledViewSubContainer = styled.View`
+    flex-direction: row;
+    height: 200;
+`;
 
-    return (
-        <Path style={ styles } d={ pathData } fill="white" strokeWidth="8" stroke={ color }/>
-    );
-}
+const StyledViewSubItem = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border-bottom-width: 1px;
+    border-bottom-color: #a3a1af;
+`;
+
+const StyledViewSubItemLeft = styled(StyledViewSubItem)`
+    border-right-width: 1px;
+    border-right-color: #a3a1af;
+`;
+
+const StyledTextItemValue = styled(StyledText)`
+    font-size: 30;
+    color: #36454f;
+`;
+
+const StyledTextItemUnit = styled(StyledText)`
+    font-size: 20;
+    color: #a3a1af;
+`;
 
 class UserProfile extends Component {
     
@@ -122,27 +139,37 @@ class UserProfile extends Component {
                 <StatusBar
                     barStyle="default"
                 />
-                <StyledViewItem>
-                    <StyledViewItemHeader>
-                        <StyledTextTitle>行走</StyledTextTitle>
-                        <TouchableOpacity onPress={()=>this.navigation.navigate('StepAnalysis')}>
-                            <StyledTextDescription>運動歷史   > </StyledTextDescription>
-                        </TouchableOpacity>
-                    </StyledViewItemHeader>
-                    <StyledViewItemValue>
-                        <StyledTextValue>---</StyledTextValue>
-                        <StyledTextDescription>步</StyledTextDescription>
-                    </StyledViewItemValue>
-                </StyledViewItem>
-                
-                <View style={{height: 200, alignItems:'center', justifyContent:'center'}}>
-                    <HeartBeatView defaultScale={1} zoomScale={1.15}>
-                        {/* <Svg height={60} width={60}>
-                            <Triangle vertices={[[0,60], [30,0], [60,60]]} color="#FF3049" delay={ 220 } />
-                        </Svg> */}
-                        <Icon name="heart-outline" size={60} color="#f95995" />
-                    </HeartBeatView>
-                </View>
+                <StyledViewMainContainer>
+                    <ProgressRing 
+                        radius={80} 
+                        ringWidth={5} 
+                        progressWidth={10} 
+                        progress={0.87}
+                        progressColor={"#37a59d"}
+                    />
+                </StyledViewMainContainer>
+                <StyledViewSubContainer>
+                    <StyledViewSubItemLeft />
+                    <StyledViewSubItem>
+                        <HeartBeatAnim>
+                            <Icon name="heart-outline" size={60} color="#f95995" />
+                        </HeartBeatAnim>
+                        <View 
+                            style={{
+                                flexDirection: 'row', 
+                                alignItems: 'center',
+                            }}
+                        >
+                            <StyledTextItemValue>
+                                60
+                            </StyledTextItemValue>
+                            <StyledTextItemUnit> </StyledTextItemUnit>
+                            <StyledTextItemUnit>
+                                bpm
+                            </StyledTextItemUnit>
+                        </View>
+                    </StyledViewSubItem>
+                </StyledViewSubContainer>
             </View>    
         );
     }

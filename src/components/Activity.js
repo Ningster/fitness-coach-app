@@ -19,7 +19,7 @@ const StyledText = styled.Text`
 
 class Activity extends Component {
     static navigationOptions = {
-        title: '運動',
+        title: '課程訓練',
       };
 
     state = {

@@ -1,6 +1,31 @@
 import React, {Component} from 'react';
-import {View, Text, StatusBar, TouchableOpacity} from 'react-native';
+import {View, StatusBar, TouchableOpacity, Animated, Dimensions, Easing} from 'react-native';
 import styled from 'styled-components/native';
+import Svg,{
+    Circle,
+    Ellipse,
+    G,
+    Text,
+    TSpan,
+    TextPath,
+    Path,
+    Polygon,
+    Polyline,
+    Line,
+    Rect,
+    Use,
+    Image,
+    Symbol,
+    Defs,
+    LinearGradient,
+    RadialGradient,
+    Stop,
+    ClipPath,
+    Pattern,
+    Mask,
+} from 'react-native-svg';
+import HeartBeatView from './HeartBeatView';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const StyledViewItemContainer = styled.View`
     background-color: #37a59d;
@@ -50,11 +75,31 @@ const StyledTextDescription = styled(StyledTextSecondary)`
     font-size: 15;
 `;
 
+function Triangle({ vertices, color, delay }){
+    const pathData = [
+        'M', vertices[0][0], vertices[0][1],
+        'L', vertices[1][0], vertices[1][1],
+        'L', vertices[2][0], vertices[2][1],
+        'Z',
+    ].join(' ');
+
+    // CSS animation doesn't work in React Native
+    // const styles = {
+    //     animation: "bounce 1.2s ease both infinite",
+    //     transformOrigin: '50% 100%',
+    //     animationDelay: `${ delay }ms`,
+    // }
+
+    return (
+        <Path style={ styles } d={ pathData } fill="white" strokeWidth="8" stroke={ color }/>
+    );
+}
+
 class UserProfile extends Component {
     
     // Configure the navigator header of the screen.
     static navigationOptions = {
-        title: '我',
+        title: '數字面板',
         // headerStyle: {
         //     backgroundColor: '#36454f',
         // },
@@ -67,6 +112,7 @@ class UserProfile extends Component {
     constructor(props){
         super(props);
         this.navigation = props.navigation;
+        this.width = Dimensions.get('window').width;
     }
 
     render() {
@@ -88,7 +134,16 @@ class UserProfile extends Component {
                         <StyledTextDescription>步</StyledTextDescription>
                     </StyledViewItemValue>
                 </StyledViewItem>
-            </View>
+                
+                <View style={{height: 200, alignItems:'center', justifyContent:'center'}}>
+                    <HeartBeatView defaultScale={1} zoomScale={1.15}>
+                        {/* <Svg height={60} width={60}>
+                            <Triangle vertices={[[0,60], [30,0], [60,60]]} color="#FF3049" delay={ 220 } />
+                        </Svg> */}
+                        <Icon name="heart-outline" size={60} color="#f95995" />
+                    </HeartBeatView>
+                </View>
+            </View>    
         );
     }
 }

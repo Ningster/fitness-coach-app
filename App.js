@@ -20,7 +20,7 @@ const ActivityStackNavigator = createStackNavigator(
   },
   {
     navigationOptions: {
-      tabBarLabel: '運動',
+      tabBarLabel: '課程訓練',
     },
   }
 );
@@ -32,7 +32,7 @@ const UserProfileStackNavigator = createStackNavigator(
   },
   {
     navigationOptions: {
-      tabBarLabel: '我',
+      tabBarLabel: '數字面板',
     },
   }
 );

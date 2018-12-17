@@ -64,6 +64,8 @@ class ProgressRingView extends Component {
             <View 
                 style={{
                     // borderWidth:5,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                 }}
             >
                 <ART.Surface width={this.surfaceLength*2} height={this.surfaceLength*2}>
@@ -81,7 +83,9 @@ class ProgressRingView extends Component {
                         transform={new ART.Transform().translate(this.surfaceLength, this.surfaceLength)}
                     />
                 </ART.Surface>
-                
+                <View style={{position:'absolute'}}>
+                    {this.props.children}
+                </View>
             </View>
         );
     }

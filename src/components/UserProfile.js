@@ -144,13 +144,32 @@ class UserProfile extends Component {
                         onPress={() => this.navigation.navigate('StepAnalysis')}
                         underlayColor={"#ebeaf0"}
                     >
-                        <ProgressRing 
-                            radius={80} 
-                            ringWidth={5} 
-                            progressWidth={10} 
-                            progress={0.87}
-                            progressColor={"#37a59d"}
-                        />
+                        <React.Fragment>
+                            <ProgressRing 
+                                radius={80} 
+                                ringWidth={5} 
+                                progressWidth={10} 
+                                progress={0.87}
+                                progressColor={"#37a59d"}
+                            >
+                                <Icon name="run-fast" size={70} color="#37a59d" />
+                            </ProgressRing>
+                            <View 
+                                style={{
+                                    flexDirection: 'row', 
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <StyledTextItemValue>
+                                    4,521
+                                </StyledTextItemValue>
+                                <StyledTextItemUnit> </StyledTextItemUnit>
+                                <StyledTextItemUnit>
+                                    步
+                                </StyledTextItemUnit>
+                            </View>
+                        </React.Fragment>
                     </TouchableHighlight>
                 </StyledViewMainContainer>
                 <StyledViewSubContainer>

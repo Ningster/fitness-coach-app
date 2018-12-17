@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
-import { Animated, ART } from 'react-native';
+import { Animated, ART, Easing, View } from 'react-native';
 import Svg,{
     Circle,
     Path,
 } from 'react-native-svg';
 import * as d3 from "d3";
+
+class Progress extends Component {
+
+    render(){
+        const { progress, createCirclePath, ...props } = this.props;
+        const d = createCirclePath(progress);
+        return (
+            <ART.Shape
+                d={d} 
+                {...props}
+            />
+        );
+    }
+
+}
+
+const AnimatedProgress = Animated.createAnimatedComponent(Progress);
 
 class ProgressRingView extends Component {
 
@@ -15,34 +32,27 @@ class ProgressRingView extends Component {
         this.progressWidth = props.progressWidth || 10;
         this.progress = props.progress || 0.87;
         this.progressColor = props.progressColor || "#37a59d";
+        this.ringColor = props.ringColor || "#a3a1af";
         this.surfaceLength = this.ringWidth > this.progressWidth ? this.radius + this.ringWidth:this.radius + this.progressWidth;
-        // this.defaultScale = props.defaultScale || 1;
-        // this.zoomScale = props.zoomScale || 1.15;
         this.state = {
-            scale: new Animated.Value(0), // So you can use setValue() later
+            progress: new Animated.Value(0.1), // So you can use setValue() later
         }
     }
     
     runAnimation(){
         Animated.timing(
-            // this.state.progress,
-            // {
-            //     toValue: this.state.progress.setValue(this.progress)
-            // }
-            this.state.scale,
+            this.state.progress,
             {
-                toValue: 5,
+                toValue: this.progress,
             }
         ).start();
-        
-        console.log("animationstarts");
     }
 
-    // componentDidMount(){
-    //     this.runAnimation();
-    // }
+    componentDidMount(){
+        this.runAnimation();
+    }
 
-    generateProgressArcPath(progress){
+    createCirclePath = (progress) => {
         const path = d3.path();
         // path.arc(x, y, radius, startAngle, endAngle[, anticlockwise])
         path.arc(0,0,this.radius, 1.5 * Math.PI, (1.5+2*progress)*Math.PI, false)
@@ -50,48 +60,29 @@ class ProgressRingView extends Component {
     }
 
     render(){
-        console.log(this.progress);
         return(
-            <Animated.View 
+            <View 
                 style={{
-                    borderWidth:5,
-                    // transform: [
-                    //     {scale: this.state.scale},
-                    //     {perspective: 1000}, // without this line this Animation will not render on Android while working fine on iOS
-                    //   ],
+                    // borderWidth:5,
                 }}
             >
-                <Svg 
-                    height={this.surfaceLength*2} 
-                    width={this.surfaceLength*2} 
-                    viewBox={`0 0 ${this.surfaceLength*2} ${this.surfaceLength*2}`}
-                >
-                    <Circle
-                        cx={this.surfaceLength}
-                        cy={this.surfaceLength}
-                        r={this.radius}
-                        stroke="#a3a1af"
+                <ART.Surface width={this.surfaceLength*2} height={this.surfaceLength*2}>
+                    <ART.Shape 
+                        d={this.createCirclePath(1)} 
+                        stroke={this.ringColor}
                         strokeWidth={this.ringWidth}
-                        fill="none"
+                        transform={new ART.Transform().translate(this.surfaceLength, this.surfaceLength)}
                     />
-                    <Path
-                        d={this.generateProgressArcPath(this.progress)} 
-                        x={this.surfaceLength}
-                        y={this.surfaceLength}
-                        fill="none"
-                        stroke={this.progressColor}
-                        strokeWidth={this.progressWidth}
-                        strokeLinecap="round"
-                    />
-                    {/* <ART.Shape 
-                        d={this.generateProgressArcPath(this.progress)} 
+                    <AnimatedProgress 
+                        progress={this.state.progress}
+                        createCirclePath={this.createCirclePath}
                         stroke={this.progressColor}
                         strokeWidth={this.progressWidth}
                         transform={new ART.Transform().translate(this.surfaceLength, this.surfaceLength)}
-                    /> */}
-                </Svg>
+                    />
+                </ART.Surface>
                 
-            </Animated.View>
+            </View>
         );
     }
 }

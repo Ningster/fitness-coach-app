@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StatusBar, TouchableOpacity, Animated, Dimensions, Easing} from 'react-native';
+import {View, StatusBar, TouchableOpacity, Animated, Dimensions, Easing, TouchableHighlight} from 'react-native';
 import styled from 'styled-components/native';
 import Svg,{
     Circle,
@@ -81,7 +81,7 @@ const StyledViewMainContainer = styled.View`
     align-items: center;
     justify-content: center;
     border-bottom-width: 1px;
-    border-bottom-color: #a3a1af;
+    border-bottom-color: #d7d7db;
 `;
 
 const StyledViewSubContainer = styled.View`
@@ -94,12 +94,12 @@ const StyledViewSubItem = styled.View`
     align-items: center;
     justify-content: center;
     border-bottom-width: 1px;
-    border-bottom-color: #a3a1af;
+    border-bottom-color: #d7d7db;
 `;
 
 const StyledViewSubItemLeft = styled(StyledViewSubItem)`
     border-right-width: 1px;
-    border-right-color: #a3a1af;
+    border-right-color: #d7d7db;
 `;
 
 const StyledTextItemValue = styled(StyledText)`
@@ -140,13 +140,18 @@ class UserProfile extends Component {
                     barStyle="default"
                 />
                 <StyledViewMainContainer>
-                    <ProgressRing 
-                        radius={80} 
-                        ringWidth={5} 
-                        progressWidth={10} 
-                        progress={0.87}
-                        progressColor={"#37a59d"}
-                    />
+                    <TouchableHighlight 
+                        onPress={() => this.navigation.navigate('StepAnalysis')}
+                        underlayColor={"#ebeaf0"}
+                    >
+                        <ProgressRing 
+                            radius={80} 
+                            ringWidth={5} 
+                            progressWidth={10} 
+                            progress={0.87}
+                            progressColor={"#37a59d"}
+                        />
+                    </TouchableHighlight>
                 </StyledViewMainContainer>
                 <StyledViewSubContainer>
                     <StyledViewSubItemLeft />

@@ -85,48 +85,7 @@ class StepAnalysis extends Component{
                     barStyle="light-content"
                 />
                 <Swiper style={{}} showsButtons={false} loop={false}>
-                    
-                    <StyledViewChartContainer>
-                        <StyledViewChartHeader>
-                            <Icon name="walk" size={30} color="#fe746d" />
-                            <StyledTextSubItemValue> 最近7天步數</StyledTextSubItemValue>
-                        </StyledViewChartHeader>
-                        <StyledViewChartBody>
-                            <YAxis
-                                style={{ 
-                                    flex: 1,
-                                }}
-                                data={ data }
-                                contentInset={ contentInset }
-                                svg={{
-                                    fill: '#fff',
-                                    fontSize: 12,
-                                }}
-                                numberOfTicks={ 2 }
-                                formatLabel={ (value)=>{
-                                    const kValue = Math.floor(value / 1000);
-                                    return `${kValue}K`
-                                } }
-                            />
-                            <LineChart
-                                style={{ flex: 8, }}
-                                data={ data }
-                                svg={{ stroke: fill, strokeWidth: 5 }}
-                                contentInset={ contentInset }
-                                numberOfTicks={ 2 }
-                            >
-                                <Grid 
-                                    svg={{ 
-                                        stroke:'white',
-                                        strokeWidth:1,
-                                    }} 
-                                />
-                            </LineChart>
-                        </StyledViewChartBody>
-                        <StyledViewChartFooter/>
-                    </StyledViewChartContainer>
-
-                    <StyledViewChartContainer>
+                <StyledViewChartContainer>
                         <StyledViewChartHeader>
                             <View style={{flex:1}} />
                             <XAxis
@@ -176,6 +135,45 @@ class StepAnalysis extends Component{
                             </BarChart>
                         </StyledViewChartBody>
                         <StyledViewChartFooter />
+                    </StyledViewChartContainer>
+                    <StyledViewChartContainer>
+                        <StyledViewChartHeader>
+                            <Icon name="walk" size={30} color="#fe746d" />
+                            <StyledTextSubItemValue> 最近7天步數</StyledTextSubItemValue>
+                        </StyledViewChartHeader>
+                        <StyledViewChartBody>
+                            <YAxis
+                                style={{ 
+                                    flex: 1,
+                                }}
+                                data={ data }
+                                contentInset={ contentInset }
+                                svg={{
+                                    fill: '#fff',
+                                    fontSize: 12,
+                                }}
+                                numberOfTicks={ 2 }
+                                formatLabel={ (value)=>{
+                                    const kValue = Math.floor(value / 1000);
+                                    return `${kValue}K`
+                                } }
+                            />
+                            <LineChart
+                                style={{ flex: 8, }}
+                                data={ data }
+                                svg={{ stroke: fill, strokeWidth: 5 }}
+                                contentInset={ contentInset }
+                                numberOfTicks={ 2 }
+                            >
+                                <Grid 
+                                    svg={{ 
+                                        stroke:'white',
+                                        strokeWidth:1,
+                                    }} 
+                                />
+                            </LineChart>
+                        </StyledViewChartBody>
+                        <StyledViewChartFooter/>
                     </StyledViewChartContainer>
 
                 </Swiper>

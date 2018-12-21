@@ -1,6 +1,6 @@
 export const AUTH_STATUS = {
     NOT_DETERMINED: 0,
     RESTRICTED: 1,
-    AUTHORIZED: 2,
-    DENIED: 3,
+    DENIED: 2,
+    AUTHORIZED: 3,
 };

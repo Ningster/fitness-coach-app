@@ -31,7 +31,8 @@ class Activity extends Component {
     }
 
     onClick = () => {
-        motionService.authorize();
+        motionService.authorize();          // Subscribe to authStatus and sensorAvailability
+        motionService.subscribeStepCount();
         this.setState({showActivityPopUp: true});
     }
 

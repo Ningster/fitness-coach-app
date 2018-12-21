@@ -1,5 +1,6 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
 import { observable, action, computed } from "mobx";
+import {PEDOMETER_STATE} from "../constants/pedometer";
 
 class MotionService {
 
@@ -7,8 +8,14 @@ class MotionService {
     motionManagerEmitter = new NativeEventEmitter(this.MotionManager);
     sensorSubscription = null;
     authSubscription = null;
+    stepCountSubscription = null;
+    currStepCount = 0;
     @observable sensorStatus = null;
     @observable authStatus = null;
+    @observable pedometerStepCount = 0;
+    @computed get serviceStepCount(){
+        return this.currStepCount + this.pedometerStepCount;
+    }
 
     // check if user authorized.
     // 如果要不到回應要怎麼處理ＸＤ
@@ -41,7 +48,7 @@ class MotionService {
             // this.updateSensorAvailability
             (status)=>{
                 console.log(`RN receives sensor status : ${status}`);
-                this.sensorStatus=status
+                this.sensorStatus=true
                 this.sensorSubscription.remove();
             }
         );
@@ -59,6 +66,25 @@ class MotionService {
         );
     }
 
+    subscribeStepCount = () => {
+        this.stepCountSubscription = this.motionManagerEmitter.addListener(
+            'PedometerStepCount',
+            (status)=>{
+                console.log(`RN receives step count : ${status}`);
+                this.pedometerStepCount = status;
+                // this.authSubscription.remove();
+            }
+        );
+    }
+
+    pedometerStartUpdates = () => {
+        this.MotionManager.pedometerStartUpdates();
+    }
+
+    pedometerStopUpdates = () => {
+        this.MotionManager.pedometerStopUpdates();
+    }
+
     authorize(){
         this.sensorSubscription = null;
         this.authSubscription = null;
@@ -68,6 +94,44 @@ class MotionService {
         this.subscribeAuthEvent();
         this.MotionManager.determineSensorAvailability();
         this.MotionManager.determineAuthStatus();
+    }
+
+    @action setPedometerState = (state) => {
+        switch(state){
+            case PEDOMETER_STATE.START:
+                // Subscribe to NativeModule's stepCount event then Start the pedometer
+                this.subscribeStepCount();
+                this.pedometerStartUpdates();
+
+                break;
+
+            case PEDOMETER_STATE.PAUSE:
+                // cache the current stepCount for later resumes.
+                this.currStepCount = this.serviceStepCount;
+
+                // Stop the pedometer. (Will no longer receive any event since the pedometer is stopped.)
+                this.pedometerStopUpdates();
+
+                break;
+
+            case PEDOMETER_STATE.RESUME:
+                // Start the pedometer. (So should be receiving events.)
+                this.pedometerStartUpdates();
+                break;
+
+            case PEDOMETER_STATE.FINISH:
+                // Unsubscribe to NativeModule's stepCount event then Stop the pedometer
+                this.stepCountSubscription.remove();
+                this.pedometerStopUpdates();
+
+                // Set below back to default.
+                this.pedometerStepCount = 0;
+                this.currStepCount = 0;
+                break;
+
+            default:
+                throw `Invalid timer state: ${state}. Only 'start'|'finish'|'pause'|'resume' are allowed.`;
+        }
     }
 
 }

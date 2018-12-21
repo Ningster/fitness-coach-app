@@ -6,6 +6,7 @@ import * as d3 from "d3";
 import {observer} from 'mobx-react';
 import timerService from '../services/TimerService';
 import {TIMER_STATE} from '../constants/timer';
+import {PEDOMETER_STATE} from "../constants/pedometer";
 import {TRIGGER} from '../constants/script';
 import motionService from '../services/MotionService';
 
@@ -139,7 +140,6 @@ export default class ActivityPopUp extends Component {
             isPaused: false,
         };
         this.TextToSpeechManager = NativeModules.TextToSpeechManager;
-        // this.MotionManager = NativeModules.MotionManager;
     }
 
     
@@ -147,18 +147,21 @@ export default class ActivityPopUp extends Component {
         this.setState({isPaused: true});
         timerService.setTimerState(TIMER_STATE.PAUSE);
         this.TextToSpeechManager.pauseSpeakingWord();
+        motionService.setPedometerState(PEDOMETER_STATE.PAUSE);
     }
 
     onResume = () => {
         this.setState({isPaused: false});
         timerService.setTimerState(TIMER_STATE.RESUME);
         this.TextToSpeechManager.continueSpeaking();
+        motionService.setPedometerState(PEDOMETER_STATE.RESUME);
     }
 
     onStop = () => {
         this.closePopUp();
         timerService.setTimerState(TIMER_STATE.FINISH);
         this.TextToSpeechManager.stopSpeakingImmediate();
+        motionService.setPedometerState(PEDOMETER_STATE.FINISH);
     }
 
     createFirstTickPath(centroidX, centroidY) {
@@ -236,7 +239,7 @@ export default class ActivityPopUp extends Component {
     componentDidMount(){
         timerService.setTimer(this.activityInfo.timeLength);
         timerService.setTimerState(TIMER_STATE.START);
-        // motionService.authorize();
+        motionService.setPedometerState(PEDOMETER_STATE.START);
     }
 
     render(){
@@ -287,7 +290,7 @@ export default class ActivityPopUp extends Component {
                         </StyledViewSubItem>
                         <StyledViewSubItem>
                             <Icon name="walk" size={30} color="#a3a1af" />
-                            <StyledTextSubItemValue>--</StyledTextSubItemValue>
+                            <StyledTextSubItemValue>{motionService.serviceStepCount}</StyledTextSubItemValue>
                             <StyledTextSubItemName>步數</StyledTextSubItemName>
                         </StyledViewSubItem>
                         <StyledViewSubItem>

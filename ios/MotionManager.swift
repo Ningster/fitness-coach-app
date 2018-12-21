@@ -15,7 +15,7 @@ class MotionManager: RCTEventEmitter {
   private let pedometer = CMPedometer()
   
   @objc override func supportedEvents() -> [String] {
-    return ["AuthStatus", "SensorAvailability"];
+    return ["AuthStatus", "SensorAvailability", "PedometerStepCount"];
   }
   
   @objc(addEvent:)
@@ -43,6 +43,21 @@ class MotionManager: RCTEventEmitter {
     self.sendEvent(withName: "SensorAvailability", body: isSensorAvailable);
     NSLog("required sensor is : "+String(isSensorAvailable));
     
+  }
+  
+  @objc(pedometerStartUpdates)
+  func pedometerStartUpdates() -> Void {
+    pedometer.startUpdates(from: Date()) {
+      pedometerData, error in
+      guard let pedometerData = pedometerData, error == nil else { return }
+      NSLog("numberOfSteps is : "+pedometerData.numberOfSteps.stringValue)
+      self.sendEvent(withName: "PedometerStepCount", body: pedometerData.numberOfSteps)
+    }
+  }
+  
+  @objc(pedometerStopUpdates)
+  func pedometerStopUpdates() -> Void {
+    pedometer.stopUpdates();
   }
   
 }

@@ -10,11 +10,13 @@ export default class AuthComponentWrapper extends React.Component {
         return (
             <View>
                 {motionService.authStatus === AUTH_STATUS.NOT_DETERMINED 
-                    && Alert.alert('存取狀態不明確')} 
+                    && motionService.pedometerStopUpdates()} 
                 {motionService.authStatus === AUTH_STATUS.DENIED 
-                    && Alert.alert('存取拒絕, 請您至「設定->隱私權->運動與健身」允許APP存取')} 
+                    && Alert.alert('無法存取您的運動資訊, 請您至「設定->隱私權->運動與健身」開放權限')} 
                 {motionService.authStatus === AUTH_STATUS.RESTRICTED 
-                    && Alert.alert('有限制的存取, 請您至「設定->隱私權->運動與健身」允許APP存取')} 
+                    && Alert.alert('無法完整存取您的運動資訊, 請您至「設定->隱私權->運動與健身」開放權限')} 
+                {/* {motionService.authStatus === AUTH_STATUS.AUTHORIZED 
+                    && (motionService.pedometerStartUpdates())}  */}
                 {motionService.authStatus === AUTH_STATUS.AUTHORIZED 
                     && (this.props.children)} 
             </View>

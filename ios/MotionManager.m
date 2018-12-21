@@ -15,5 +15,7 @@
 RCT_EXTERN_METHOD(addEvent:(NSString *)name)
 RCT_EXTERN_METHOD(determineAuthStatus)
 RCT_EXTERN_METHOD(determineSensorAvailability)
+RCT_EXTERN_METHOD(pedometerStartUpdates)
+RCT_EXTERN_METHOD(pedometerStopUpdates)
 
 @end

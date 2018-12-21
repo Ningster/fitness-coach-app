@@ -7,6 +7,7 @@ import {observer} from 'mobx-react';
 import timerService from '../services/TimerService';
 import {TIMER_STATE} from '../constants/timer';
 import {TRIGGER} from '../constants/script';
+import motionService from '../services/MotionService';
 
 const StyledViewContainer = styled.View`
     flex: 1;
@@ -138,6 +139,7 @@ export default class ActivityPopUp extends Component {
             isPaused: false,
         };
         this.TextToSpeechManager = NativeModules.TextToSpeechManager;
+        // this.MotionManager = NativeModules.MotionManager;
     }
 
     
@@ -234,6 +236,7 @@ export default class ActivityPopUp extends Component {
     componentDidMount(){
         timerService.setTimer(this.activityInfo.timeLength);
         timerService.setTimerState(TIMER_STATE.START);
+        // motionService.authorize();
     }
 
     render(){
@@ -245,6 +248,7 @@ export default class ActivityPopUp extends Component {
                 onRequestClose={() => {
                 Alert.alert('Modal has been closed.');
             }}>
+                {motionService.authStatus == 0}
                 {timerService.timeIsUp ? (
                     Alert.alert(
                         'Good Job! 課程已結束',
@@ -255,6 +259,9 @@ export default class ActivityPopUp extends Component {
                         { cancelable: false }
                     )
                 ):(null)}
+                
+                {/* 不應該放在這裡，應該寫在timer observable被改變之後，因爲他只有講話，並沒有改變畫面 */}
+                {/* Mobx應該有reaction可以用 */}
                 {this.ttsSupervisor()}
                 <StyledViewContainer>
                     <StyledViewTopBar>

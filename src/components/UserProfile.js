@@ -173,7 +173,23 @@ class UserProfile extends Component {
                     </TouchableHighlight>
                 </StyledViewMainContainer>
                 <StyledViewSubContainer>
-                    <StyledViewSubItemLeft />
+                    <StyledViewSubItemLeft>
+                        <Icon name="speedometer" size={60} color="#46abc1" />
+                        <View 
+                            style={{
+                                flexDirection: 'row', 
+                                alignItems: 'center',
+                            }}
+                        >
+                            <StyledTextItemValue>
+                                5.02
+                            </StyledTextItemValue>
+                            <StyledTextItemUnit> </StyledTextItemUnit>
+                            <StyledTextItemUnit>
+                                分/公里
+                            </StyledTextItemUnit>
+                        </View>
+                    </StyledViewSubItemLeft>
                     <StyledViewSubItem>
                         <HeartBeatAnim>
                             <Icon name="heart-outline" size={60} color="#f95995" />

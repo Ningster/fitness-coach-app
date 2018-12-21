@@ -23,12 +23,6 @@ class TextToSpeechManager: NSObject {
     return false
   }
   
-  @objc(addSomeEvent:location:date:)
-  func addSomeEvent(name: String, location: String, date: NSNumber) -> Void {
-    // Date is ready to use!
-    NSLog("Cute \(name) and you can also put expressions here \(5*2)");
-  }
-  
   @objc(speak:)
   func speak(text: String) -> Void {
     NSLog(text);

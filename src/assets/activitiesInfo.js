@@ -2,7 +2,7 @@ import {TRIGGER} from '../constants/script';
 
 export const runHIIT = {
     // time in milliseconds
-    timeLength: 180000,
+    timeLength: 10000,
     trigger: TRIGGER.TIME, // "time" | "heartRate" | "gps" | "pace"
     script: [
         {
@@ -11,9 +11,14 @@ export const runHIIT = {
             text: "來吧！放鬆你的肩膀，先暖身一下",
         },
         {
-            baseline: 60000,
+            baseline: 5000,
             operator: ">=",
-            text: "快跑500公尺，注意呼吸調節，腰桿打直！",
+            text: "哈囉",
+        },
+        {
+            baseline: 50000,
+            operator: ">=",
+            text: "心情放鬆，看看旁邊的風景",
         }
     ],
 }

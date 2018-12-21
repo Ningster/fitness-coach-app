@@ -41,6 +41,8 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B75C64B261FC4B269963205B /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CAE60274A142E6905F56BE /* libRNGestureHandler.a */; };
 		D1FD16305A4543AB8428EC2B /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1DF2744939243608F83702C /* libRNSVG-tvOS.a */; };
+		E801BB9C21C8C80000D9F5FA /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E801BB9B21C8C7FF00D9F5FA /* MotionManager.swift */; };
+		E801BB9E21C8C9C300D9F5FA /* MotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E801BB9D21C8C9C300D9F5FA /* MotionManager.m */; };
 		E810C51221A79CB30062619D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E810C50321A79CB30062619D /* Octicons.ttf */; };
 		E810C51321A79CB30062619D /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E810C50421A79CB30062619D /* Feather.ttf */; };
 		E810C51421A79CB30062619D /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E810C50521A79CB30062619D /* Entypo.ttf */; };
@@ -404,6 +406,8 @@
 		9C71D1AA439C42DAB1E7E165 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		A1DF2744939243608F83702C /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		E801BB9B21C8C7FF00D9F5FA /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		E801BB9D21C8C9C300D9F5FA /* MotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MotionManager.m; sourceTree = "<group>"; };
 		E810C50321A79CB30062619D /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		E810C50421A79CB30062619D /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
 		E810C50521A79CB30062619D /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -575,6 +579,8 @@
 				E8EC917521AD481C00E8B57D /* TextToSpeechManager.swift */,
 				E8EC917421AD481C00E8B57D /* fitnessCoachApp-Bridging-Header.h */,
 				E8EC917721AD485800E8B57D /* TextToSpeechManager.m */,
+				E801BB9B21C8C7FF00D9F5FA /* MotionManager.swift */,
+				E801BB9D21C8C9C300D9F5FA /* MotionManager.m */,
 			);
 			name = fitnessCoachApp;
 			sourceTree = "<group>";
@@ -1332,6 +1338,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8EC917621AD481C00E8B57D /* TextToSpeechManager.swift in Sources */,
+				E801BB9E21C8C9C300D9F5FA /* MotionManager.m in Sources */,
+				E801BB9C21C8C80000D9F5FA /* MotionManager.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				E8EC917821AD485800E8B57D /* TextToSpeechManager.m in Sources */,
@@ -1696,7 +1704,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1742,7 +1750,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

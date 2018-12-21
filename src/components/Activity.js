@@ -3,6 +3,10 @@ import {View, Text, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 import ActivityPopUp from './ActivityPopUp';
 import {runHIIT} from '../assets/activitiesInfo';
+import SensorComponentWrapper from './SensorComponentWrapper';
+import AuthComponentWrapper from './AuthComponentWrapper';
+import motionService from '../services/MotionService';
+import {observer} from 'mobx-react';
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
     width: 100%;
@@ -27,6 +31,7 @@ class Activity extends Component {
     }
 
     onClick = () => {
+        motionService.authorize();
         this.setState({showActivityPopUp: true});
     }
 
@@ -46,11 +51,15 @@ class Activity extends Component {
                     <StyledText>開始燃脂跑。HIIT強化   GO!</StyledText>
                 </View>
             </StyledTouchableOpacity>
-            {this.state.showActivityPopUp ? 
-                <ActivityPopUp 
-                    closePopUp={this.closePopUp} 
-                    activityInfo={runHIIT}
-                /> 
+            {this.state.showActivityPopUp ?
+                <SensorComponentWrapper> 
+                    <AuthComponentWrapper>
+                        <ActivityPopUp 
+                            closePopUp={this.closePopUp} 
+                            activityInfo={runHIIT}
+                        /> 
+                    </AuthComponentWrapper>
+                </SensorComponentWrapper>
                 : 
                 null
             }
